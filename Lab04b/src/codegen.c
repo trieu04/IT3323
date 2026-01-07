@@ -1,4 +1,4 @@
-/* 
+/*
  * @copyright (c) 2008, Hedspi, Hanoi University of Technology
  * @author Huu-Duc Nguyen
  * @version 1.0
@@ -20,11 +20,15 @@ extern Object* writelnProcedure;
 CodeBlock* codeBlock;
 
 void genVariableAddress(Object* var) {
-  // TODO
+  // Generate LA (Load Address) instruction
+  // For now, assume all variables are at level 0 (current frame)
+  genLA(0, VARIABLE_OFFSET(var));
 }
 
 void genVariableValue(Object* var) {
-  // TODO
+  // Generate LV (Load Value) instruction
+  // For now, assume all variables are at level 0 (current frame)
+  genLV(0, VARIABLE_OFFSET(var));
 }
 
 int isPredefinedFunction(Object* func) {
@@ -68,16 +72,16 @@ void genLI(void) {
 }
 
 void genINT(int delta) {
-  emitINT(codeBlock,delta);
+  emitINT(codeBlock, delta);
 }
 
 void genDCT(int delta) {
-  emitDCT(codeBlock,delta);
+  emitDCT(codeBlock, delta);
 }
 
 Instruction* genJ(CodeAddress label) {
   Instruction* inst = codeBlock->code + codeBlock->codeSize;
-  emitJ(codeBlock,label);
+  emitJ(codeBlock, label);
   return inst;
 }
 
